@@ -6,11 +6,11 @@ export function getPostgresConfig(config: ConfigService): TypeOrmModuleOptions {
   return {
     type: 'postgres',
 
-    database: config.get('postgress.name'),
-    host: config.get('postgress.host'),
-    password: config.get('postgress.password'),
-    port: config.get('postgress.port'),
-    username: config.get('postgress.username'),
+    database: config.get('postgres.name'),
+    host: config.get('postgres.host'),
+    password: config.get('postgres.password'),
+    port: config.get('postgres.port'),
+    username: config.get('postgres.username'),
 
     // TODO: Resolve project root.
     entities: [resolve(__dirname, '../../**/*.entity{.ts,.js}')],
