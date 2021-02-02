@@ -1,1 +1,3 @@
-export class CreateNoteDto {}
+export class CreateNoteDto {
+  content: string
+}
