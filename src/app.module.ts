@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { PostgresModule } from './lib/postgres'
-import { AuthModule } from './features/auth/AuthModule'
 import { NotesModule } from './notes/notes.module'
 import { configure } from './configs'
 
@@ -13,7 +12,6 @@ import { configure } from './configs'
       envFilePath: ['.development.env'],
     }),
     PostgresModule,
-    AuthModule,
     NotesModule,
   ],
 })
