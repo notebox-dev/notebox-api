@@ -6,9 +6,6 @@ export class Note {
   id: number
 
   @Column({ type: 'text' })
-  sign: string
-
-  @Column({ type: 'text' })
   content: string
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
