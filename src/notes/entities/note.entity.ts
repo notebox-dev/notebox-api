@@ -3,15 +3,15 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 
 @Entity()
 export class Note {
-  @PrimaryGeneratedColumn({ type: 'uuid' })
+  @PrimaryGeneratedColumn('uuid')
   id: string
 
   @Column({ type: 'text' })
   content: string
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  created_at: Date
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
+  createdAt: Date
 
-  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updated_at: Date
+  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })
+  updatedAt: Date
 }
