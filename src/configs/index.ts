@@ -1,4 +1,7 @@
 export const configure = () => ({
+  encryption: {
+    salt_rounds: 10,
+  },
   postgres: {
     host: process.env.PG_DB_HOST,
     port: Number(process.env.PG_DB_PORT),
