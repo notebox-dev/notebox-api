@@ -1,16 +1,17 @@
+/* eslint-disable camelcase */
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
 @Entity()
 export class Note {
   @PrimaryGeneratedColumn({ type: 'uuid' })
-  id: number
+  id: string
 
   @Column({ type: 'text' })
   content: string
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  createDate: Date
+  created_at: Date
 
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updateDate: Date
+  updated_at: Date
 }
