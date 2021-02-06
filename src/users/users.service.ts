@@ -18,4 +18,8 @@ export class UsersService {
     user.password = await this.encryptionService.hash(user.password)
     return this.repository.save(user)
   }
+
+  findByEmail(email: string) {
+    return this.repository.findOne({ email })
+  }
 }
