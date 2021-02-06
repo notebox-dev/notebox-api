@@ -1,8 +1,11 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-import { PostgresModule } from './lib/postgres'
-import { NotesModule } from './notes/notes.module'
-import { configure } from './configs'
+
+import { PostgresModule } from 'src/lib/postgres'
+import { NotesModule } from 'src/notes/notes.module'
+import { AuthModule } from 'src/auth/auth.module'
+import { UsersModule } from 'src/users/users.module'
+import { configure } from 'src/configs'
 
 @Module({
   imports: [
@@ -13,6 +16,8 @@ import { configure } from './configs'
     }),
     PostgresModule,
     NotesModule,
+    AuthModule,
+    UsersModule,
   ],
 })
 export class AppModule {}
