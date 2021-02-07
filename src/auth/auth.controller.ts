@@ -16,13 +16,16 @@ export class AuthController {
   }
 
   @Post('signin')
-  async signin(@Body() credentials: SigninDto) {
-    return this.authService.createSession(credentials)
+  async signin(@Request() request: Request, @Body() credentials: SigninDto) {
+    const ip = (request as any).ip
+    const userAgent = request.headers['user-agent']
+
+    return this.authService.createSession(credentials, { ip, userAgent })
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Get('me')
-  me(@Request() request) {
+  me(@Request() request: any) {
     return request.user
   }
 }
