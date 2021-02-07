@@ -10,7 +10,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       ignoreExpiration: false,
       // TODO: Use cookie extractor for web.
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: config.get('jwt.secret_key'),
+      secretOrKey: config.get('access_token.secret_key'),
     })
   }
 
@@ -18,7 +18,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    * A method calls after JWT is verified,
    * and result will be attached for request.
    */
-  async validate(payload: any) {
+  validate(payload: any) {
     // FIXME: Define type for jwt payload.
     return { email: payload.email }
   }
