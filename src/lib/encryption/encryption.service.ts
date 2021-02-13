@@ -1,16 +1,18 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { hash, compare } from 'bcrypt'
+import { hashSync, compareSync } from 'bcrypt'
+
+import { Encryption } from './encryption.interface'
 
 @Injectable()
-export class EncryptionService {
+export class EncryptionService implements Encryption {
   constructor(private config: ConfigService) {}
 
-  hash(plain: string): Promise<string> {
-    return hash(plain, this.config.get('encryption.salt_rounds'))
+  hashSync(plain: string): string {
+    return hashSync(plain, this.config.get('encryption.salt_rounds'))
   }
 
-  compare(plain: string, encrypted: string): Promise<boolean> {
-    return compare(plain, encrypted)
+  compareSync(plain: string, encrypted: string): boolean {
+    return compareSync(plain, encrypted)
   }
 }
