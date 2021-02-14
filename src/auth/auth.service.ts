@@ -8,7 +8,7 @@ import { UsersService } from 'src/users/users.service'
 import { User } from 'src/users/entities/user.entity'
 import { Encryption, EncryptionToken } from 'src/lib/encryption'
 import { addMillisecondsFromNow } from 'src/lib/date'
-import { RefreshToken } from './entities/refresh-token.entity'
+import { RefreshTokenEntity } from './entities/refresh-token.entity'
 import { Meta } from './lib/meta.decorator'
 import { LoginDto } from './dto/login.dto'
 import { RefreshDto } from './dto/refresh.dto'
@@ -21,7 +21,7 @@ export class AuthService {
     private jwt: JwtService,
     private user: UsersService,
     private config: ConfigService,
-    @InjectRepository(RefreshToken) private refreshTokenRepo: Repository<RefreshToken>,
+    @InjectRepository(RefreshTokenEntity) private refreshTokenRepo: Repository<RefreshTokenEntity>,
     @Inject(EncryptionToken) private encryption: Encryption,
   ) {}
 
@@ -69,7 +69,7 @@ export class AuthService {
     return tokens
   }
 
-  private isTokenMetaValid(token: RefreshToken, nextMeta: Meta) {
+  private isTokenMetaValid(token: RefreshTokenEntity, nextMeta: Meta) {
     return (
       // token.ip === nextMeta.ip &&
       token.userAgent === nextMeta.userAgent && token.expiresIn > Date.now()
@@ -99,7 +99,7 @@ export class AuthService {
       await this.refreshTokenRepo.delete({ userId: user.id })
     }
 
-    const token = new RefreshToken()
+    const token = new RefreshTokenEntity()
     token.userId = user.id
     token.expiresIn = addMillisecondsFromNow(this.config.get('refresh_token.expires_in'))
     token.ip = meta.ip
