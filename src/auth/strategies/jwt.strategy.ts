@@ -3,6 +3,8 @@ import { ConfigService } from '@nestjs/config'
 import { PassportStrategy } from '@nestjs/passport'
 import { ExtractJwt, Strategy } from 'passport-jwt'
 
+import { User } from '../lib/user.decorator'
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private config: ConfigService) {
@@ -10,7 +12,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       ignoreExpiration: false,
       // TODO: Use cookie extractor for web.
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: config.get('jwt.secret_key'),
+      secretOrKey: config.get('access_token.secret_key'),
     })
   }
 
@@ -18,8 +20,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    * A method calls after JWT is verified,
    * and result will be attached for request.
    */
-  async validate(payload: any) {
-    // FIXME: Define type for jwt payload.
-    return { email: payload.email }
+  validate(payload: User): User {
+    return { id: payload.id }
   }
 }

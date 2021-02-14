@@ -1,8 +1,8 @@
-import { Injectable, BadRequestException } from '@nestjs/common'
+import { Injectable, Inject, BadRequestException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { EncryptionService } from 'src/lib/encryption/encryption.service'
+import { Encryption, EncryptionToken } from 'src/lib/encryption'
 import { CreateUserDto } from './dto/create-user.dto'
 import { User } from './entities/user.entity'
 
@@ -10,7 +10,7 @@ import { User } from './entities/user.entity'
 export class UsersService {
   constructor(
     @InjectRepository(User) private userRepo: Repository<User>,
-    private encryption: EncryptionService,
+    @Inject(EncryptionToken) private encryption: Encryption,
   ) {}
 
   async create(userDto: CreateUserDto): Promise<User> {
@@ -20,40 +20,17 @@ export class UsersService {
       throw new BadRequestException('User with this email already exists')
     }
 
-    return this.userRepo.save({
-      ...userDto,
-      password: await this.encryption.hash(userDto.password),
-    })
-  }
-
-  async findOneByEmail(email: string): Promise<User> {
-    const user = await this.userRepo.findOne({ email })
-
-    if (!user) {
-      throw new BadRequestException('Incorrect email or password')
-    }
+    userDto.password = this.encryption.hashSync(userDto.password)
+    const user = await this.userRepo.save(userDto)
 
     return user
   }
 
-  async findOneById(id: string): Promise<User> {
-    const user = await this.userRepo.findOne(id)
-
-    if (!user) {
-      throw new BadRequestException('Incorrect email or password')
-    }
-
-    return user
+  findOneByEmail(email: string): Promise<User> {
+    return this.userRepo.findOne({ email })
   }
 
-  async checkPassword(rawPassword: string, encryptedPassword: string): Promise<boolean> {
-    // TODO: Maybe remove from this service?
-    const isValid = await this.encryption.compare(rawPassword, encryptedPassword)
-
-    if (!isValid) {
-      throw new BadRequestException('Incorrect email or password')
-    }
-
-    return true
+  findOneById(id: string): Promise<User> {
+    return this.userRepo.findOne(id)
   }
 }

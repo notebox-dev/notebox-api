@@ -1,21 +1,14 @@
 import { NestFactory } from '@nestjs/core'
 import { ValidationPipe } from '@nestjs/common'
 import { NestExpressApplication } from '@nestjs/platform-express'
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 
-import { AppModule } from './app.module'
+import { AppModule } from 'src/app.module'
+import { setupSwagger } from 'src/lib/swagger'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
 
-  const config = new DocumentBuilder()
-    .addServer('/api/v1')
-    .setTitle('Notebox API')
-    .setVersion('v1')
-    .build()
-  const document = SwaggerModule.createDocument(app, config)
-
-  SwaggerModule.setup('/api/v1', app, document)
+  setupSwagger(app)
 
   // TODO: Add mapping for errors.
   app.useGlobalPipes(new ValidationPipe())
