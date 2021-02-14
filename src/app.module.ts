@@ -4,7 +4,7 @@ import { ConfigModule } from '@nestjs/config'
 
 import { PostgresModule } from 'src/lib/postgres'
 import { NotesModule } from 'src/notes/notes.module'
-import { AuthModule } from 'src/auth/auth.module'
+import { AuthModule } from 'src/auth'
 import { UsersModule } from 'src/users/users.module'
 import { configure } from 'src/configs'
 import { HttpExceptionFilter } from 'src/lib/http-exception.filter'

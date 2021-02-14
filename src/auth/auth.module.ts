@@ -5,14 +5,15 @@ import { JwtModule } from '@nestjs/jwt'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
 import { UsersModule } from 'src/users/users.module'
+import { EncryptionModule } from 'src/lib/encryption'
 import { JwtStrategy } from './strategies/jwt.strategy'
 import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
-import { RefreshSession } from './entities/refresh-session.entity'
+import { RefreshToken } from './entities/refresh-token.entity'
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([RefreshSession]),
+    TypeOrmModule.forFeature([RefreshToken]),
     PassportModule.register({
       defaultStrategy: 'jwt',
       property: 'user',
@@ -29,6 +30,7 @@ import { RefreshSession } from './entities/refresh-session.entity'
       }),
     }),
     UsersModule,
+    EncryptionModule,
   ],
   providers: [ConfigService, AuthService, JwtStrategy],
   controllers: [AuthController],

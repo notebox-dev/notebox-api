@@ -1,11 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, Index } from 'typeorm'
 
-@Entity()
-export class RefreshSession {
+@Entity('refresh_tokens')
+export class RefreshToken {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
   @Column({ type: 'uuid', name: 'user_id' })
+  @Index()
   userId: string
 
   @Column({ type: 'varchar' })
