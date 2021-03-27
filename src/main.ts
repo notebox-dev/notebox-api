@@ -10,7 +10,8 @@ async function bootstrap() {
 
   setupSwagger(app)
 
-  // TODO: Add mapping for errors.
+  app.enableCors()
+
   app.useGlobalPipes(new ValidationPipe())
   app.disable('x-powered-by')
   app.setGlobalPrefix('/api/v1')
