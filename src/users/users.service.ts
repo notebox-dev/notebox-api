@@ -31,6 +31,6 @@ export class UsersService {
   }
 
   findOneById(id: string): Promise<User> {
-    return this.userRepo.findOne(id)
+    return this.userRepo.findOne({ id })
   }
 }
